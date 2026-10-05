@@ -61,7 +61,8 @@ const parseBody = (request, response, handler) => {
 };
 
 const onRequest = (request, response) => {
-  const parsedUrl = new URL(request.url, 'http://localhost');
+  const protocol = request.connection.encrypted ? 'https' : 'http';
+  const parsedUrl = new URL(request.url, `${protocol}://${request.headers.host}`);
   const { pathname } = parsedUrl;
   request.query = Object.fromEntries(parsedUrl.searchParams);
 
