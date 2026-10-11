@@ -1,7 +1,7 @@
 const fs = require('fs');
 
 const index = fs.readFileSync(`${__dirname}/../client/index.html`);
-const css = fs.readFileSync(`${__dirname}/../client/style.html`);
+const css = fs.readFileSync(`${__dirname}/../client/style.css`);
 const clientJS = fs.readFileSync(`${__dirname}/../client/client.js`);
 
 const sendFile = (request,response,type,content) => {
