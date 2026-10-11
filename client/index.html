@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gen 1 Pokedex API</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:wght@600;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+    <header>
+        <div>
+            <h1>Gen 1 Pokedex API</h1>
+            <p>Search, filter, add, and edit Pokemon through the API. No code needed</p>
+        </div>
+    </header>
+
+    <main class="layout">
+        <aside>
+            <section class="panel">
+                <h2>Find Pokemon</h2>
+                <form id="filterForm">
+                    <label>Name contains <input name="name" placeholder="char"></label>
+                    <label>Type <select name="type" id="typeSelect">
+                            <option value="">Any type</option>
+                        </select></label>
+                    <label>Weak to <select name="weakness" id="weaknessSelect">
+                            <option value="">Any type</option>
+                        </select></label>
+                    <label>Max results <input name="limit" type="number" min="1" value="12"></label>
+                    <button type="submit">Search</button>
+                </form>
+            </section>
+
+            <section class="panel">
+                <h2>Add a Pokémon</h2>
+                <form id="addForm">
+                    <label>Name <input name="name" required></label>
+                    <label>Types <small>Pick 1 or 2, separated by commas</small><input name="type"
+                            placeholder="Fire, Flying" required></label>
+                    <label>Height (m) <input name="height" placeholder="1.2"></label>
+                    <label>Weight (kg) <input name="weight" placeholder="45.5"></label>
+                    <label>Weaknesses <small>Separated by commas</small><input name="weaknesses"
+                            placeholder="Water, Rock"></label>
+                    <label>Image URL <input name="img" type="url"></label>
+                    <button type="submit">Add Pokémon</button>
+                </form>
+            </section>
+
+            <section class="panel">
+                <h2>Edit a Pokémon</h2>
+                <form id="updateForm">
+                    <label>Number (id) <input name="id" type="number" min="1" required></label>
+                    <label>New name <input name="name"></label>
+                    <label>New types <input name="type" placeholder="Fire"></label>
+                    <label>New height (m) <input name="height"></label>
+                    <label>New weight (kg) <input name="weight"></label>
+                    <label>New weaknesses <input name="weaknesses"></label>
+                    <button type="submit">Save changes</button>
+                </form>
+                <small>Leave a field blank to keep its current value.</small>
+            </section>
+        </aside>
+
+        <section aria-live="polite">
+            <p id="status" class="status">Ready. Search to see Pokemon</p>
+            <h2>Results</h2>
+            <p id="summary" class="summary"></p>
+            <div id="results"" class="grid"></div>
+        </section>
+    </main>
+
+    <script src="/client.js"></script>
+</body>
+</html>
