@@ -9,6 +9,9 @@ const getRoutes = {
   '/getPokemonById': jsonHandler.getPokemonById,
   '/getTypes': jsonHandler.getTypes,
   '/getEvolutions': jsonHandler.getEvolutions,
+  '/style.css': htmlHandler.getCSS,
+  '/': htmlHandler.getIndex,
+  '/client.js': htmlHandler.getClientJS,
 };
 
 const urlStruct = {
