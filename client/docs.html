@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokedex API Docs</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:wght@600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body class='docs'>
+    <header>
+        <div>
+            <h1>Pokedex API Documentation</h1>
+            <p>Every endpoint returns JSON. Data lives in memory, so anything added or edited resets when the server restarts</p>
+        </div>
+    </header>
+
+    <main>
+        <nav class="doc-links">
+            <a href="/">Test the Application Here</a>
+            <a href="/docs">View the Documentation Here</a>
+        </nav>
+
+        <section class="endpoint">
+      <h2><code>/getPokemon</code> <span class="tag">GET</span> <span class="tag">HEAD</span></h2>
+      <h3>Query Params</h3>
+      <p><code>name</code> (optional) Type: <code>string</code> - Part of a Pokémon's name to filter by. Capitalization is ignored.</p>
+      <p><code>type</code> (optional) Type: <code>string</code> - A type to filter by, like <code>Fire</code>.</p>
+      <p><code>weakness</code> (optional) Type: <code>string</code> - A type the Pokémon must be weak to.</p>
+      <p><code>limit</code> (optional) Type: <code>number</code> - The most results to return. Must be a whole number of 1 or more.</p>
+      <h3>Returns</h3>
+      <p>A JSON object with the number of matches and an array of Pokémon objects.<br>
+      Format: <code>{ count: number, results: [{ id: number, num: string, name: string, img: string, type: [string], height: string, weight: string, weaknesses: [string], next_evolution?: [{ num: string, name: string }] }] }</code></p>
+      <h3>Examples</h3>
+      <p>Request: <code>/getPokemon?type=Fire&amp;limit=1</code></p>
+      <p>Result: <code>{ count: 1, results: [{ id: 4, num: '004', name: 'Charmander', type: ['Fire'], height: '0.61 m', weight: '8.5 kg', weaknesses: ['Water', 'Ground', 'Rock'], next_evolution: [{ num: '005', name: 'Charmeleon' }, { num: '006', name: 'Charizard' }], img: '...' }] }</code></p>
+      <p>Request: <code>/getPokemon?limit=0</code></p>
+      <p>Result: <code>400 Error (limit must be 1 or more)</code></p>
+    </section>
+
+    <section class="endpoint">
+      <h2><code>/getPokemonById</code> <span class="tag">GET</span> <span class="tag">HEAD</span></h2>
+      <h3>Query Params</h3>
+      <p><code>id</code> (required) Type: <code>number</code> - The id of the Pokémon.</p>
+      <h3>Returns</h3>
+      <p>A JSON Pokémon object.<br>
+      Format: <code>{ id: number, num: string, name: string, img: string, type: [string], height: string, weight: string, weaknesses: [string], next_evolution?: [{ num: string, name: string }] }</code></p>
+      <h3>Examples</h3>
+      <p>Request: <code>/getPokemonById?id=2</code></p>
+      <p>Result: <code>{ id: 2, num: '002', name: 'Ivysaur', type: ['Grass', 'Poison'], height: '0.99 m', weight: '13.0 kg', weaknesses: ['Fire', 'Ice', 'Flying', 'Psychic'], next_evolution: [{ num: '003', name: 'Venusaur' }], img: '...' }</code></p>
+      <p>Request: <code>/getPokemonById</code></p>
+      <p>Result: <code>400 Error (Missing id)</code></p>
+      <p>Request: <code>/getPokemonById?id=99999</code></p>
+      <p>Result: <code>404 Error (Pokémon Doesn't Exist)</code></p>
+    </section>
+
+    <section class="endpoint">
+      <h2><code>/getTypes</code> <span class="tag">GET</span> <span class="tag">HEAD</span></h2>
+      <h3>Query Params</h3>
+      <p>No Supported Params</p>
+      <h3>Returns</h3>
+      <p>A JSON object with every type and how many Pokémon have it, sorted by type name.<br>
+      Format: <code>{ types: [{ type: string, count: number }] }</code></p>
+      <h3>Examples</h3>
+      <p>Request: <code>/getTypes</code></p>
+      <p>Result: <code>{ types: [{ type: 'Bug', count: 12 }, { type: 'Dragon', count: 3 }, ...] }</code></p>
+    </section>
+
+    <section class="endpoint">
+      <h2><code>/getEvolutions</code> <span class="tag">GET</span> <span class="tag">HEAD</span></h2>
+      <h3>Query Params</h3>
+      <p><code>id</code> (required) Type: <code>number</code> - The id of the Pokémon.</p>
+      <h3>Returns</h3>
+      <p>A JSON object listing what the Pokémon evolves from and into. Either list may be empty.<br>
+      Format: <code>{ id: number, name: string, evolvesFrom: [{ num: string, name: string }], evolvesInto: [{ num: string, name: string }] }</code></p>
+      <h3>Examples</h3>
+      <p>Request: <code>/getEvolutions?id=2</code></p>
+      <p>Result: <code>{ id: 2, name: 'Ivysaur', evolvesFrom: [{ num: '001', name: 'Bulbasaur' }], evolvesInto: [{ num: '003', name: 'Venusaur' }] }</code></p>
+      <p>Request: <code>/getEvolutions</code></p>
+      <p>Result: <code>400 Error (Missing id)</code></p>
+    </section>
+
+    <section class="endpoint">
+      <h2><code>/addPokemon</code> <span class="tag post">POST</span></h2>
+      <h3>Supported Body Formats</h3>
+      <p><code>application/json</code> <code>application/x-www-form-urlencoded</code></p>
+      <h3>Body Params</h3>
+      <p><code>name</code> (required) Type: <code>string</code> - The Pokémon's name. Must be unique, ignoring capitalization.</p>
+      <p><code>type</code> (required) Type: <code>string</code> or <code>[string]</code> - One or two types, as a comma separated string or a JSON array.</p>
+      <p><code>height</code> (optional) Type: <code>string</code> or <code>number</code> - Height in meters, like <code>1.2</code>. Stored as <code>'1.2 m'</code>.</p>
+      <p><code>weight</code> (optional) Type: <code>string</code> or <code>number</code> - Weight in kilograms, like <code>45</code>. Stored as <code>'45 kg'</code>.</p>
+      <p><code>weaknesses</code> (optional) Type: <code>string</code> or <code>[string]</code> - Weak-to types, in the same format as <code>type</code>.</p>
+      <p><code>img</code> (optional) Type: <code>string</code> - An image URL.</p>
+      <h3>Returns</h3>
+      <p>A <code>201</code> status and a JSON Pokémon object for the new Pokémon. The server picks its <code>id</code> and <code>num</code>.<br>
+      Format: <code>{ id: number, num: string, name: string, img: string, type: [string], height: string, weight: string, weaknesses: [string] }</code></p>
+      <h3>Examples</h3>
+      <p>Request: <code>/addPokemon</code></p>
+      <p>Body: <code>{ name: 'Voidling', type: 'Ghost,Dragon', height: '1.2', weight: '30' }</code></p>
+      <p>Result: <code>201 { id: 152, num: '152', name: 'Voidling', img: '', type: ['Ghost', 'Dragon'], height: '1.2 m', weight: '30 kg', weaknesses: [] }</code></p>
+      <p>Request: <code>/addPokemon</code></p>
+      <p>Body: <code>{ name: 'Voidling' }</code></p>
+      <p>Result: <code>400 Error (Missing type)</code></p>
+      <p>Request: <code>/addPokemon</code></p>
+      <p>Body: <code>{ name: 'Pikachu', type: 'Electric' }</code></p>
+      <p>Result: <code>409 Error (Name Already Exists)</code></p>
+    </section>
+
+    <section class="endpoint">
+      <h2><code>/updatePokemon</code> <span class="tag post">POST</span></h2>
+      <h3>Supported Body Formats</h3>
+      <p><code>application/json</code> <code>application/x-www-form-urlencoded</code></p>
+      <h3>Body Params</h3>
+      <p><code>id</code> (required) Type: <code>number</code> - The id of the Pokémon to change.</p>
+      <p><code>name</code> (optional) Type: <code>string</code> - A new name. Must stay unique.</p>
+      <p><code>type</code> (optional) Type: <code>string</code> or <code>[string]</code> - New types, as a comma separated string or a JSON array.</p>
+      <p><code>height</code> (optional) Type: <code>string</code> or <code>number</code> - New height in meters.</p>
+      <p><code>weight</code> (optional) Type: <code>string</code> or <code>number</code> - New weight in kilograms.</p>
+      <p><code>weaknesses</code> (optional) Type: <code>string</code> or <code>[string]</code> - New weak-to types.</p>
+      <p><code>img</code> (optional) Type: <code>string</code> - A new image URL.</p>
+      <p>At least one optional param must be sent. Only the params you send are changed.</p>
+      <h3>Returns</h3>
+      <p>A <code>204</code> status with no body when the Pokémon was updated.</p>
+      <h3>Examples</h3>
+      <p>Request: <code>/updatePokemon</code></p>
+      <p>Body: <code>{ id: 25, weight: '6.2 kg' }</code></p>
+      <p>Result: <code>204 (No Content)</code></p>
+      <p>Request: <code>/updatePokemon</code></p>
+      <p>Body: <code>{ id: 25 }</code></p>
+      <p>Result: <code>400 Error (Nothing to Change)</code></p>
+      <p>Request: <code>/updatePokemon</code></p>
+      <p>Body: <code>{ id: 99999, name: 'Fake' }</code></p>
+      <p>Result: <code>404 Error (Pokémon Doesn't Exist)</code></p>
+    </section>
+
+    <section class="endpoint">
+        <h2>Errors and Headers</h2>
+        <p>Errors are returned as JSON in this format: <code>{ message: string, id: string}</code></p>
+        <p>Any URL that does not exist returns <code>404</code>. Every response includes <code>Content-Type</code> and <code>Content-Length</code> headers, and <code>HEAD</code> requests return the same headers as <code>GET</code> without a body.</p></p> 
+    </section>
+
+    <p class="docs-footer">Gen 1 Pokedex API - IGME 430 Project 1</p>
+    </main>
+</body>
+</html>

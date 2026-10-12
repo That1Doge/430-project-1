@@ -13,6 +13,7 @@ const getRoutes = {
   '/style.css': htmlHandler.getCSS,
   '/': htmlHandler.getIndex,
   '/client.js': htmlHandler.getClientJS,
+  '/docs': htmlHandler.getDocs,
 };
 
 const urlStruct = {

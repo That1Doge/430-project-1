@@ -224,3 +224,14 @@ small {
   color: var(--muted);
   margin: 0;
 }
+
+/* ---------- Documentation page ---------- */
+.docs-links { display: flex; gap: 1.25rem; font-weight: 700; margin-bottom: 1rem; }
+.endpoint { background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 1rem 1.25rem; margin-bottom: 1.25rem; }
+.endpoint h2 { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; margin-bottom: .75rem; }
+.endpoint h3 { font-size: 1rem; margin: 1rem 0 .35rem; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; }
+.endpoint p { margin: .35rem 0; }
+.tag { font: 700 .75rem/1 Consolas, monospace; padding: .3rem .5rem; border-radius: 4px; background: var(--accent); color: var(--accent-ink); }
+.tag.post { background: var(--ok); }
+.docs code { font-family: Consolas, monospace; background: #eaf0ed; padding: .05rem .35rem; border-radius: 3px; white-space: pre-wrap; overflow-wrap: anywhere; }
+.docs-footer { color: var(--muted); text-align: center; padding: 1rem 0 2rem; }
